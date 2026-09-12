@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="parent">
+        <div class="child">
+        <h1>My Todo List</h1>
+        <p>Organize your tasks and get things done</p>
+        <div class="input">
+        <input type="text" placeholder="What needs to be done?">
+        <button id="button">Add Task</button>
+        </div>
+        <div class="error"></div>
+        <div class="check"><span>All<span id="all">(0)</span></span><span>Active<span id="active">(0)</span></span><span>Completed<span id="completed">(0)</span></span></div>
+        <div class="add">
+
+    </div>
+        <div class="checking"> 
+            <span><img src="task.png" alt="" id="task">Total Tasks <span id="overallall">0</span></span>
+            <span><img src="pending.png" alt="" id="pending">Pending <span id="overallactive">0</span></span>
+            <span><img src="completed.png" alt="" id="complete">Completed <span id="overallcomplete">0</span></span>
+        </div>
+        </div>
+    </div>
+    <script>
+        let btn=document.querySelector("button")
+        let input=document.querySelector("input")
+        let add=document.querySelector(".add")
+        let error=document.querySelector(".error")
+        let para=document.createElement("p")
+        let all=document.getElementById("all")
+        let active=document.getElementById("active")
+        let completed=document.getElementById("completed")
+        let checking=document.querySelector(".checking")
+        para.style.display="block"
+        let overallall=document.getElementById("overallall")
+        let overallactive=document.getElementById("overallactive")
+        let overallcomplete=document.getElementById("overallcomplete")
+        let allcount=0
+        let activecount=0
+        let completecount=0
+        btn.addEventListener("click",()=>{
+            let ans=input.value
+            if(ans.trim()===""){
+                para.textContent="Please fill this field...."
+                para.style.color="red"
+                error.append(para)
+            }
+            else{
+                para.textContent=""
+            let div=document.createElement("div")
+            activecount++
+            allcount++
+            all.textContent=`(${allcount})`
+            overallall.textContent=allcount
+            active.textContent=`(${activecount})`
+            overallactive.textContent=activecount
+            div.style.display="flex"
+            div.style.justifyContent="space-between"
+            div.style.padding="10px"
+            div.style.boxSizing="border-box"
+            let checkbox=document.createElement("input")
+            checkbox.style.width="5%"
+            checkbox.style.display="flex"
+            checkbox.type="checkbox"
+            div.append(checkbox)
+            let text=document.createElement("span")
+            text.style.overflow="hidden"
+            text.textContent=ans
+            text.style.flexGrow="1"
+            text.style.marginLeft="5px"
+            div.append(text)
+            checkbox.addEventListener("click",()=>{
+                if(checkbox.checked){
+                console.log("checked")
+                text.style.textDecoration="line-through"
+                completecount++
+                activecount--
+                }
+                else{
+                    text.style.textDecoration="none"
+                    completecount--
+                    activecount++
+                    console.log("not check")
+                }
+                completed.textContent=`(${completecount})`
+                overallcomplete.textContent=completecount
+                active.textContent=`(${activecount})`
+                overallactive.textContent=activecount
+                console.log("eppavume")
+            })
+            let newdiv=document.createElement("div")
+            newdiv.style.display="flex"
+            newdiv.style.justifyContent="flex-end"
+            newdiv.style.width="20%"
+            div.append(newdiv)
+            let create=document.createElement("img")
+            let image=document.createElement("img")
+            create.src="edit.png"
+            create.style.width="20px"
+            create.style.marginRight="7px"
+            create.addEventListener("click",()=>{
+                let change=prompt("enter a new:",ans)
+                if(change !== null && change.trim() !==""){
+                    text.textContent=change
+                    ans=change
+                }
+            })
+            newdiv.append(create)
+            image.src="delete.png"
+            image.style.width="20px"
+            image.addEventListener("click",()=>{
+                allcount--
+                all.textContent=`(${allcount})`
+                overallall.textContent=allcount
+                console.log(activecount)
+                if(checkbox.checked){
+                    completecount--
+                    completed.textContent=`(${completecount})`
+                    overallcomplete.textContent=completecount
+                }
+                else{
+                    activecount--
+                    active.textContent=`(${activecount})`
+                    overallactive.textContent=activecount
+                }
+                div.remove()
+            })
+            console.log(image)
+            newdiv.append(image)
+            add.append(div)
+            div.style.marginTop="10px"
+            div.style.backgroundColor="rgba(53, 77, 99, 0.253)"
+            input.value=""
+            console.log(ans)}
+        })
+    </script>
+</body>
+</html>
